@@ -14,7 +14,7 @@ Hexi 2077's AI News Hub
 
 <div style="margin-top: 2rem; margin-bottom: 4rem; display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center;">
   {{< hextra/hero-badge link="/en/2026-03/2026-03-07" >}}Read Today's News 🔥{{< /hextra/hero-badge >}}
-  {{< hextra/hero-badge link="/en/blog/weekly" >}}Dive into the AI Weekly 📖{{< /hextra/hero-badge >}}
+  {{< hextra/hero-badge link="/en/blog/weekly" >}}Dive into the AI Weekly 📚{{< /hextra/hero-badge >}}
   {{< hextra/hero-badge link="https://github.com/justlovemaki" >}}Business & Partnership Inquiries 🤝{{< /hextra/hero-badge >}}
 </div>
 
@@ -32,16 +32,16 @@ Hexi 2077's AI News Hub
   {{< card title="Practical Focus" icon="sparkles" subtitle="We track how AI tools are applied in the real world, helping you spot genuine opportunities in the productivity revolution." >}}
 {{< /cards >}}
 
-## Fresh off the Press! 🗞️
+## Fresh off the Press! 📰
 
 {{< cards cols="3" >}}
 <!-- LATEST_6_CARDS_START -->
-{{< card link="/en/2026-03/2026-03-15" title="AI News Daily 2026/03/15" subtitle="Claude's million-token context fully open, supporting 600 images. 360" icon="calendar" >}}
+{{< card link="/en/2026-03/2026-03-16" title="AI News Daily 2026/03/16" subtitle="Microsoft, NVIDIA, OpenAI Release New Products Simultaneously; Billion-Dollar" icon="calendar" >}}
+  {{< card link="/en/2026-03/2026-03-15" title="AI News Daily 2026/03/15" subtitle="Claude's million-token context fully open, supporting 600 images. 360" icon="calendar" >}}
   {{< card link="/en/2026-03/2026-03-14" title="AI News Daily 2026/03/14" subtitle="Gemini mobile automates cross-app tasks, Claude plugins enable cross-application" icon="calendar" >}}
   {{< card link="/en/2026-03/2026-03-13" title="AI News Daily 2026/03/13" subtitle="Aishi Technology announces C-round funding and PixVerse R1; Tencent E'xia" icon="calendar" >}}
   {{< card link="/en/2026-03/2026-03-12" title="AI News Daily 2026/03/12" subtitle="Replit Agent 4 Launches, Valuation Soars to $9 Billion; Perplexity Unveils" icon="calendar" >}}
   {{< card link="/en/2026-03/2026-03-11" title="AI News Daily 2026/03/11" subtitle="NVIDIA invests $50 billion in Thinking Machines, LeCun founds AMI with" icon="calendar" >}}
-  {{< card link="/en/2026-03/2026-03-10" title="AI News Daily 2026/03/10" subtitle="Microsoft Phi-4 multimodal, Tencent launches Penguin-VL vision-language" icon="calendar" >}}
 <!-- LATEST_6_CARDS_END -->
 {{< /cards >}}
 
@@ -53,16 +53,16 @@ Hexi 2077's AI News Hub
 The [AI Weekly](/en/blog/weekly/) is your ideal starting point for newcomers! It's designed to help you quickly grasp crucial industry shifts, preventing you from getting lost in fragmented information. Let's get you up to speed!
 
 ### 2. Stay in Daily Sync
-The [AI Daily Archive](/en/2026-03/2026-03-15) is your go-to for staying on the cutting edge! Just 5 minutes a day will keep you perfectly aligned with the global AI pulse. Stay sharp! ⚡
+The [AI Daily Archive](/en/2026-03/2026-03-16) is your go-to for staying on the cutting edge! Just 5 minutes a day will keep you perfectly aligned with the global AI pulse. Stay sharp! ⚡
 
 ### 3. Explore Deeper Practice
-The [Blog](/en/blog/) is where you should dive in for deeper practice! It offers structured guides on AI tools, workflows, and boosting your productivity. Unleash your inner tech wizard! 💡
+The [Blog](/en/blog/) is where you should dive in for deeper practice! It offers structured guides on AI tools, workflows, and boosting your productivity. Unleash your inner tech wizard! ✨
 
 {{% /steps %}}
 
 ---
 
-## Who's Hanging Out Here? 👇
+## Who's Hanging Out Here? 👋
 
 <div style="margin-top: 2rem; margin-bottom: 4rem; display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center;">
   {{< hextra/hero-badge >}}AI Professionals{{< /hextra/hero-badge >}}
