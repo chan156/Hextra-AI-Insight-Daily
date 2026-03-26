@@ -383,3 +383,8 @@ html.dark .wwads-cn .wwads-poweredby,
 html.dark .wwads-cn .wwads-poweredby a {
   color: #d1d5db !important;
 }
+
+/* 优云智算广告加粗文案：仅浅色模式使用紫色强调 */
+html:not(.dark) .ucloud-ad-highlight {
+  color: #5139ED;
+}

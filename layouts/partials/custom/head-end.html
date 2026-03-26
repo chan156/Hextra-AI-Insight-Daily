@@ -255,6 +255,220 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 
+{{- if (and .Site.Params.floatingWidget .Site.Params.floatingWidget.enable) -}}
+<script>
+/**
+ * 悬浮图标加载 iframe 脚本
+ * 功能：在右下角显示悬浮图标，点击展开/折叠 iframe，支持主题动态切换
+ */
+(function() {
+    function initFloatingWidget() {
+        const iframeBaseUrl = "{{ .Site.Params.floatingWidget.url }}";
+        
+        // 1. 注入 CSS 样式
+        const css = `
+            #floating-widget-container {
+                position: fixed;
+                bottom: 32px;
+                right: 48px;
+                z-index: 9999;
+                display: flex;
+                flex-direction: column;
+                align-items: flex-end;
+                font-family: system-ui, -apple-system, sans-serif;
+            }
+            #floating-widget-iframe-wrapper {
+                width: 300px;
+                height: 600px;
+                max-width: 90vw;
+                max-height: 80vh;
+                border-radius: 12px;
+                box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+                margin-bottom: 16px;
+                overflow: hidden;
+                display: none;
+                background: #fff;
+                border: none;
+                transition: all 0.3s ease;
+                position: relative;
+            }
+            #floating-widget-loader {
+                position: absolute;
+                inset: 0;
+                display: none;
+                align-items: center;
+                justify-content: center;
+                background: inherit;
+                z-index: 10;
+            }
+            .spinner {
+                width: 32px;
+                height: 32px;
+                border: 3px solid #e5e7eb;
+                border-top-color: #007bff;
+                border-radius: 50%;
+                animation: spin 0.8s linear infinite;
+            }
+            .dark .spinner {
+                border-color: #444;
+                border-top-color: #ff9900;
+            }
+            @keyframes spin {
+                from { transform: rotate(0deg); }
+                to { transform: rotate(360deg); }
+            }
+            .dark #floating-widget-iframe-wrapper {
+                background: #1a1a1a;
+                box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+            }
+            #floating-widget-iframe-wrapper iframe {
+                width: 100%;
+                height: 100%;
+                border: none;
+                scrollbar-width: none;
+                -ms-overflow-style: none;
+            }
+            #floating-widget-iframe-wrapper iframe::-webkit-scrollbar {
+                display: none;
+            }
+            #floating-widget-toggle {
+                width: 56px;
+                height: 56px;
+                border-radius: 28px;
+                background: #ffffff;
+                color: #4b5563;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+                border: none;
+                transition: all 0.2s ease;
+            }
+            #floating-widget-toggle:hover {
+                transform: scale(1.05);
+                background-color: #f9fafb;
+                color: #111827;
+                box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+            }
+            .dark #floating-widget-toggle {
+                background: #1a1a1a;
+                color: #9ca3af;
+                box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+            }
+            .dark #floating-widget-toggle:hover {
+                background-color: #262626;
+                color: #f3f4f6;
+                box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+            }
+            #floating-widget-toggle svg {
+                width: 28px;
+                height: 28px;
+                fill: currentColor;
+                transition: transform 0.3s ease;
+            }
+            #floating-widget-toggle.active svg {
+                transform: rotate(180deg);
+            }
+            #floating-widget-toggle:not(.active) {
+                animation: bounce-hint 4s infinite ease-in-out;
+            }
+            @keyframes bounce-hint {
+                0%, 100% { transform: translateY(0); }
+                50% { transform: translateY(-8px); }
+            }
+            @media (max-width: 767px) {
+                #floating-widget-container {
+                    display: none;
+                }
+            }
+        `;
+
+        const style = document.createElement('style');
+        style.textContent = css;
+        document.head.appendChild(style);
+
+        // 2. 创建 HTML 结构
+        const container = document.createElement('div');
+        container.id = 'floating-widget-container';
+        
+        const wrapper = document.createElement('div');
+        wrapper.id = 'floating-widget-iframe-wrapper';
+        
+        const iframe = document.createElement('iframe');
+        iframe.id = 'floating-widget-iframe';
+        wrapper.appendChild(iframe);
+
+        const loader = document.createElement('div');
+        loader.id = 'floating-widget-loader';
+        loader.innerHTML = '<div class="spinner"></div>';
+        wrapper.appendChild(loader);
+
+        iframe.onload = () => {
+            loader.style.display = 'none';
+        };
+        
+        const toggle = document.createElement('div');
+        toggle.id = 'floating-widget-toggle';
+        toggle.title = '和我聊聊';
+        // 使用一个带有 AI 星光效果的对话图标
+        toggle.innerHTML = '<svg viewBox="0 0 24 24"><path d="M12,2A10,10 0 0,0 2,12C2,14.42 2.85,16.64 4.28,18.38L3,22L6.65,20.73C8.2,21.55 9.95,22 11.8,22C17.3,22 21.8,17.5 21.8,12C21.8,6.5 17.3,2 11.8,2M11.8,4C16.2,4 19.8,7.6 19.8,12C19.8,16.4 16.2,20 11.8,20C10.3,20 8.9,19.6 7.7,18.9L7.4,18.7L5.2,19.5L6,17.3L5.8,17C4.7,15.5 4,13.8 4,12C4,7.6 7.6,4 11.8,4M13,7L12.2,8.8L10.4,9.6L12.2,10.4L13,12.2L13.8,10.4L15.6,9.6L13.8,8.8L13,7M9,11L8.1,13L6.1,13.9L8.1,14.8L9,16.8L9.9,14.8L11.9,13.9L9.9,13L9,11Z"/></svg>';
+        
+        container.appendChild(wrapper);
+        container.appendChild(toggle);
+        document.body.appendChild(container);
+
+        // 3. 逻辑处理
+        function getTheme() {
+            return document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+        }
+
+        function updateIframeUrl() {
+            const currentTheme = getTheme();
+            const targetUrl = `${iframeBaseUrl}?theme=${currentTheme}`;
+            if (iframe.src !== targetUrl) {
+                const loader = document.getElementById('floating-widget-loader');
+                if (loader) loader.style.display = 'flex';
+                iframe.src = targetUrl;
+            }
+        }
+
+        toggle.addEventListener('click', () => {
+            const isVisible = wrapper.style.display === 'block';
+            if (isVisible) {
+                wrapper.style.display = 'none';
+                toggle.classList.remove('active');
+            } else {
+                // 仅在展开时更新/加载 URL
+                updateIframeUrl();
+                wrapper.style.display = 'block';
+                toggle.classList.add('active');
+            }
+        });
+
+        // 4. 监听主题切换
+        const themeObserver = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.attributeName === 'class') {
+                    // 仅当展开状态时才同步主题，避免后台无谓加载
+                    if (wrapper.style.display === 'block') {
+                        updateIframeUrl();
+                    }
+                }
+            });
+        });
+        themeObserver.observe(document.documentElement, { attributes: true });
+    }
+
+    if (document.readyState === 'loading') {
+        window.addEventListener('DOMContentLoaded', initFloatingWidget);
+    } else {
+        initFloatingWidget();
+    }
+})();
+</script>
+{{- end -}}
+
 {{ "<!-- ENTERING partial seo-schema.html -->" | safeHTML }}
 
 {{/* --- Publisher Block --- */}}
